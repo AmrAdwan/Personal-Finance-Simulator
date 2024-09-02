@@ -1,0 +1,77 @@
+﻿@model finance.Models.SimulationResult
+
+@{
+  ViewData["Title"] = "Simulation Results";
+}
+
+<div class="container mt-5">
+  <h2 class="text-center mb-4">@ViewData["Title"]</h2>
+
+  <!-- Details Section -->
+  <div class="card mb-4 shadow">
+    <div class="card-body">
+      <h3 class="card-title">Details</h3>
+      <p><strong>Success:</strong> @Model.Success</p>
+      <p><strong>Message:</strong> @Model.Message</p>
+      <p><strong>Projected Balance:</strong> @Model.ProjectedBalance.ToString("C2")</p>
+    </div>
+  </div>
+
+  <!-- Chart Section -->
+  <div class="mb-4">
+    <canvas id="simulationChart"></canvas>
+  </div>
+
+  <!-- Recommendations Section -->
+  @if (Model.Recommendations.Any())
+  {
+    <div class="mb-4">
+      <h3>Recommendations</h3>
+      @foreach (var recommendation in Model.Recommendations)
+      {
+        <p>@recommendation</p>
+      }
+    </div>
+  }
+
+  <!-- Back Button -->
+  <div class="text-center">
+    <a asp-controller="Simulation" asp-action="BackToSimulation" class="btn btn-info">Back to Simulation</a>
+  </div>
+</div>
+
+
+@section Scripts {
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    // Hardcoded data for the simulation
+    var balances = [12000, 15000, 13000, 16000, 15500, @Model.ProjectedBalance]; // Include the current balance
+    var labels = ['01/01/2022', '02/06/2022', '03/12/2022', '04/01/2023', '05/02/2024', 'Current']; // Include the current date label
+
+    var ctx = document.getElementById('simulationChart').getContext('2d');
+    var simulationChart = new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Projected Balance',
+          data: balances,
+          backgroundColor: 'rgba(54, 162, 235, 0.2)',
+          borderColor: 'rgba(54, 162, 235, 1)',
+          borderWidth: 2,
+          fill: false,
+          pointRadius: 5,
+          tension: 0.4
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: false
+          },
+          x: {}
+        }
+      }
+    });
+  </script>
+}

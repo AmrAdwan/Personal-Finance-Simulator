@@ -1,0 +1,97 @@
+﻿@model finance.Models.FinancialProfile
+
+@{
+  ViewData["Title"] = "Financial Simulation";
+}
+
+<div class="container mt-5">
+  <h2 class="mb-4">@ViewData["Title"]</h2>
+
+  <form asp-action="Simulate" method="post" class="needs-validation" novalidate>
+    <div class="row g-3">
+      <!-- Monthly Income -->
+      <div class="col-md-6">
+        <label asp-for="Income" class="form-label">Monthly Income:</label>
+        <input asp-for="Income" class="form-control" type="number" step="0.01" required>
+        <div class="invalid-feedback">
+          Please enter your monthly income.
+        </div>
+      </div>
+
+      <!-- Monthly Expenses -->
+      <div class="col-md-6">
+        <label asp-for="Expenses" class="form-label">Monthly Expenses:</label>
+        <input asp-for="Expenses" class="form-control" type="number" step="0.01" required>
+        <div class="invalid-feedback">
+          Please enter your monthly expenses.
+        </div>
+      </div>
+
+      <!-- Savings -->
+      <div class="col-md-6">
+        <label asp-for="Savings" class="form-label">Savings:</label>
+        <input asp-for="Savings" class="form-control" type="number" step="0.01" required>
+        <div class="invalid-feedback">
+          Please enter your savings amount.
+        </div>
+      </div>
+
+      <!-- Debt -->
+      <div class="col-md-6">
+        <label asp-for="Debt" class="form-label">Debt:</label>
+        <input asp-for="Debt" class="form-control" type="number" step="0.01" required>
+        <div class="invalid-feedback">
+          Please enter your total debt.
+        </div>
+      </div>
+
+      <!-- Annual Interest Rate -->
+      <div class="col-md-6">
+        <label asp-for="InterestRate" class="form-label">Annual Interest Rate (%):</label>
+        <input asp-for="InterestRate" class="form-control" type="number" step="0.01" required>
+        <div class="invalid-feedback">
+          Please enter an annual interest rate.
+        </div>
+      </div>
+
+      <!-- Years to Simulate -->
+      <div class="col-md-6">
+        <label asp-for="SimulationYears" class="form-label">Years to Simulate:</label>
+        <input asp-for="SimulationYears" class="form-control" type="number" required>
+        <div class="invalid-feedback">
+          Please enter the number of years to simulate.
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-4 text-center">
+      <button type="submit" class="btn btn-primary btn-lg">Simulate</button>
+    </div>
+  </form>
+</div>
+
+@section Scripts {
+  <script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function ()
+    {
+      'use strict'
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.querySelectorAll('.needs-validation')
+      // Loop over them and prevent submission
+      Array.prototype.slice.call(forms)
+        .forEach(function (form)
+        {
+          form.addEventListener('submit', function (event)
+          {
+            if (!form.checkValidity())
+            {
+              event.preventDefault()
+              event.stopPropagation()
+            }
+            form.classList.add('was-validated')
+          }, false)
+        })
+    })()
+  </script>
+}
